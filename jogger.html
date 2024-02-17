@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initialisation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Page d'initialisation</h2>
+    <form onsubmit="return initLeasing()">
+        <label for="dateDebut">Date de début du leasing (A) :</label>
+        <input type="date" id="dateDebut" value="2023-10-10" onFocus="this.value='';" required>
+
+        <label for="dateFin">Date de fin du leasing (B) :</label>
+        <input type="date" id="dateFin" value="2026-10-10" onFocus="this.value='';" required>
+
+        <label for="kilometresAutorises">Nombre de kilomètres autorisés entre A et B (C) :</label>
+        <input type="number" id="kilometresAutorises" value="37500" onFocus="this.value='';" required><br>
+
+        <label for="kilometrageDepart">Kilométrage de départ :</label>
+        <input type="number" id="kilometrageDepart" value="9400" onFocus="this.value='';" required><br>
+
+        <input type="submit" value="Valider">
+    </form>
+
+    <script>
+        function initLeasing() {
+            var dateDebut = document.getElementById('dateDebut').value;
+            var dateFin = document.getElementById('dateFin').value;
+            var kilometresAutorises = parseFloat(document.getElementById('kilometresAutorises').value);
+            var kilometrageDepart = parseFloat(document.getElementById('kilometrageDepart').value);
+
+            var joursTotal = Math.floor((new Date(dateFin) - new Date(dateDebut)) / (24 * 60 * 60 * 1000));
+            var kilometrageQuotidienPrevu = Math.round(kilometresAutorises) / joursTotal;
+			var joursEcoulés = Math.floor((new Date() - new Date(dateDebut)) / (24 * 60 * 60 * 1000));
+            localStorage.setItem('joursTotal', joursTotal);
+            localStorage.setItem('kilometrageQuotidienPrevu', kilometrageQuotidienPrevu);
+            localStorage.setItem('kilometrageDepart', kilometrageDepart);
+			localStorage.setItem('joursEcoulés', joursEcoulés);
+            // Rediriger vers la page resultats.html
+            window.location.href = 'resultatsJ.html';
+
+            return false; // Empêche le formulaire de se soumettre normalement
+        }
+    </script>
+</body>
+</html>
